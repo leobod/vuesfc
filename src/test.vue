@@ -1,4 +1,5 @@
 <template>
+  <!--注释文本-->
   <div class="visitor-success layout-1">
     <div class="page-head">
       <div class="success-tips">{{ $t('预约登记成功') }}</div>
@@ -15,6 +16,7 @@
         block
         round
         type="primary"
+        :data-value="abc"
       >
         {{ $t('返回首页') }}
       </van-button>
@@ -23,6 +25,10 @@
 </template>
 
 <script setup>
+
+const abc = reactive({
+  value: '1'
+})
 // 返回首页
 const handleGoHome = (path, query = {}) => {
   console.log('Hello')

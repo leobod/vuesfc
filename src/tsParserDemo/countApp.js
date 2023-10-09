@@ -10,6 +10,11 @@ if(app){
     console.log(name);
 }
 
+function add (a, b) {
+  const app = 'app'
+  return a + b + app
+}
+
 function getInfos (info: string) {
     const result = app.get(info);
     return result;
