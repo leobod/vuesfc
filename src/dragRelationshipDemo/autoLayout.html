@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Canvas 自动布局示例</title>
+    <style>
+      canvas {
+        border: 1px solid #000;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="800" height="600"></canvas>
+
+    <script>
+      window.addEventListener("load", () => {
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+        // 定义节点
+        const nodes = [
+          { id: 1, x: 100, y: 100 },
+          { id: 2, x: 200, y: 150 },
+          { id: 3, x: 150, y: 250 },
+          { id: 4, x: 300, y: 200 },
+          // ... 可以添加更多节点
+        ];
+
+        // 定义连接线
+        const connections = [
+          { from: 1, to: 2 },
+          { from: 2, to: 3 },
+          { from: 3, to: 4 },
+          // ... 可以添加更多连接
+        ];
+
+        function autoLayout2() {
+          const k = 0.1; // 弹簧常数
+          const damping = 0.8; // 阻尼系数
+          const repulsiveForce = 1000; // 排斥力常数
+
+          // 初始化节点速度
+          nodes.forEach((node) => {
+            node.vx = 0;
+            node.vy = 0;
+          });
+
+          // 计算斥力
+          nodes.forEach((nodeA, indexA) => {
+            nodes.forEach((nodeB, indexB) => {
+              if (indexA !== indexB) {
+                const dx = nodeB.x - nodeA.x;
+                const dy = nodeB.y - nodeA.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                const forceX = (repulsiveForce * dx) / (distance * distance);
+                const forceY = (repulsiveForce * dy) / (distance * distance);
+
+                nodeA.vx -= forceX;
+                nodeA.vy -= forceY;
+              }
+            });
+          });
+
+          // 计算弹簧力
+          connections.forEach((conn) => {
+            const nodeA = nodes.find((node) => node.id === conn.from);
+            const nodeB = nodes.find((node) => node.id === conn.to);
+
+            const dx = nodeB.x - nodeA.x;
+            const dy = nodeB.y - nodeA.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            const forceX = k * (distance - 100) * (dx / distance);
+            const forceY = k * (distance - 100) * (dy / distance);
+
+            nodeA.vx += forceX;
+            nodeA.vy += forceY;
+            nodeB.vx -= forceX;
+            nodeB.vy -= forceY;
+          });
+
+          // 更新节点位置
+          nodes.forEach((node) => {
+            node.vx *= damping;
+            node.vy *= damping;
+            node.x += node.vx;
+            node.y += node.vy;
+          });
+        }
+
+        // 自动布局节点
+        function autoLayout() {
+          // 这里可以实现自动布局算法，对节点位置进行调整
+          // 这里给出一个简单的示例，将节点沿着 x 轴等间距排列
+          const horizontalSpacing = 150;
+          nodes.forEach((node, index) => {
+            node.x = index * horizontalSpacing + 100;
+            node.y = 300; // 固定 y 坐标位置
+          });
+        }
+
+        // 绘制节点
+        function drawNodes() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          nodes.forEach((node) => {
+            ctx.beginPath();
+            ctx.arc(node.x, node.y, 20, 0, Math.PI * 2);
+            ctx.fillStyle = "#009688";
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.font = "12px Arial";
+            ctx.fillStyle = "#000";
+            ctx.textAlign = "center";
+            ctx.fillText(node.id, node.x, node.y + 5);
+          });
+        }
+
+        // 绘制连接线
+        function drawConnections() {
+          connections.forEach((conn) => {
+            const fromNode = nodes.find((node) => node.id === conn.from);
+            const toNode = nodes.find((node) => node.id === conn.to);
+
+            ctx.beginPath();
+            ctx.moveTo(fromNode.x, fromNode.y);
+            ctx.lineTo(toNode.x, toNode.y);
+            ctx.strokeStyle = "#000";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+          });
+        }
+
+        // 执行自动布局和绘制
+        autoLayout2();
+        drawNodes();
+        drawConnections();
+      });
+    </script>
+  </body>
+</html>
