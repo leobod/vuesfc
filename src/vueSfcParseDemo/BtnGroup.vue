@@ -273,6 +273,9 @@ export default {
     };
   },
   methods: {
+    test() {
+      console.log("TEST");
+    },
     /**
      * 点击盖章
      */
