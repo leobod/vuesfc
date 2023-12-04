@@ -1,7 +1,5 @@
 /**
- * 方法一: 使用vue-template-compiler解析后，手动处理script.content，用正则匹配methods段，匹配容易失败
- * 方法二: 使用vue-template-compiler解析后，使用acorn来解析，无法有效的处理注释段
- * 当前方法：使用vue-template-compiler解析后，使用babel来解析。目前符合后续的要求
+ * 进一步了解： 对于.vue文件，包含处理template script setupScript style 部分
  */
 
 const compiler = require('vue-template-compiler');
