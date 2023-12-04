@@ -3,7 +3,7 @@ const compiler = require('vue-template-compiler');
 const fs = require('fs');
 
 // 读取.vue文件内容
-const fileContent = fs.readFileSync('D:/project/Thyssenkrupp/ThyssenkruppWeb/src/views/Login/index.vue', 'utf-8');
+const fileContent = fs.readFileSync('D:/project/src/Test/index.vue', 'utf-8');
 
 // 解析.vue文件
 const parsedComponent = compiler.parseComponent(fileContent);

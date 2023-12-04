@@ -8,7 +8,7 @@ const compiler = require('vue-template-compiler');
 const parser = require('@babel/parser');
 const fs = require('fs');
 
-const filePath = 'D:/project/Thyssenkrupp/ThyssenkruppWeb/src/views/Login/index.vue';
+const filePath = 'D:/project/src/Test/index.vue';
 const fileContent = fs.readFileSync(filePath, 'utf-8');
 
 const com = compiler.parseComponent(fileContent);

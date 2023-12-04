@@ -6,16 +6,16 @@ const compiler = require('vue-template-compiler');
 const parser = require('@babel/parser');
 const fs = require('fs');
 
-// const filePath = 'D:/project/Thyssenkrupp/ThyssenkruppWeb/src/views/Login/index.vue';
-const filePath = 'D:/project/BMRS2.0/CacheProject/BMRS2.0Web/src/views/Login/index.vue'
+// const filePath = 'D:/project/src/Test/index.vue';
+const filePath = 'D:/project/src/Test/index.vue'
 const fileContent = fs.readFileSync(filePath, 'utf-8');
 
 const com = compiler.parseComponent(fileContent);
 
-const htmlContent = com.template.content;
+const htmlContent = com.template && com.template.content || null;
 const scriptContent = com.script && com.script.content || null;
-const scriptSetupContent = com.scriptSetup.content;
-const styleContent = com.styles.content;
+const scriptSetupContent = com.scriptSetup && com.scriptSetup.content || null;
+const styleContent = com.styles && com.styles.content || null;
 
 // 使用 Acorn 解析脚本内容生成AST
 const ast = parser.parse(scriptSetupContent, {
